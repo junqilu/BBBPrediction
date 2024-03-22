@@ -6,7 +6,11 @@ Data source: Meng, F., Xi, Y., Huang, J. & Ayers, P. W. A curated diverse molecu
 
 \
 2 datasets
-* BBB_classification.csv 
-  * Contains 7807 chemicals and 1625 descriptors
-* BBB_regression.csv
-  * Contains 1058 chemicals and 1623 descriptors
+
+|      Dataset files      |  Number of chemicals  |  Number of descriptors  |
+|:-----------------------:|:---------------------:|:-----------------------:|
+| BBB_classification.csv  |         7807          |          1625           |
+|   BBB_regression.csv    |         1058          |          1623           |
+
+
+
