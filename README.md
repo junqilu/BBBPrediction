@@ -7,10 +7,15 @@ Data source: Meng, F., Xi, Y., Huang, J. & Ayers, P. W. A curated diverse molecu
 \
 2 datasets
 
-|      Dataset files      |  Number of chemicals  |  Number of descriptors  |
-|:-----------------------:|:---------------------:|:-----------------------:|
-| BBB_classification.csv  |         7807          |          1625           |
-|   BBB_regression.csv    |         1058          |          1623           |
+|      Dataset files      |  Number of chemicals  | Number of BBB+ chemicals | Number of BBB- chemicals |  Number of descriptors  |
+|:-----------------------:|:---------------------:|:------------------------:|:------------------------:|:-----------------------:|
+|   BBB_regression.csv    |         1058          |           930            |           128            |          1623           |
+| BBB_classification.csv  |         7807          |           4956           |           2851           |          1625           |
+
+* In BBB_regression.csv, `logBB <= -1.01` is considered as BBB- and `logBB >= -1` is considered as BBB+
+
+
+
 
 
 
