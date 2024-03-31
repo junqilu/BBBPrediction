@@ -192,7 +192,7 @@ def merge_multiple_dfs(df_list, left_index_bool=True, right_index_bool=True):
 
 def dataset_feature_expansion(input_df):
     """
-    Expand input_df by adding mordred descriptors, Morgan
+    Expand input_df by adding RDKit descriptors, Morgan
     fingerprints, and MACCS keys
 
     Args:
@@ -216,14 +216,21 @@ def dataset_feature_expansion(input_df):
         merged_df = merge_multiple_dfs(
             [
                 input_df,
-                descriptor_df,
+                rdkit_descriptor_df,
                 morgan_fingerprint_df,
                 maccs_key_df
             ]
-        )  # Merge input_df to generated dfs for mordred descriptors,
+        )  # Merge input_df to generated dfs for RDKit descriptors,
         # Morgan fingerprints, and MACCS keys
 
         output_df = merged_df.drop(columns=['molecules'])  # Drop the
         # 'molecules' col since it's not very useful for later modeling
+
+        output_df.dropna(inplace=True)
+        output_df.reset_index(
+            drop=True,  # Otherwise the output_df
+            # will have a 'index' col for the previous column
+            inplace=True
+        )
 
     return output_df
