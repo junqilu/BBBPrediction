@@ -70,7 +70,7 @@ def generate_rdkit_descriptor_df(input_df):
     return output_df
 
 
-def generate_morgan_fingerprint_df(input_df):
+def generate_morgan_fingerprint_df(input_df, bit_num):
     """
     Generate a pd df containing only Morgan fingerprints using molecule
     structures from input_df
@@ -182,8 +182,12 @@ def dataset_feature_expansion(input_df):
     if add_molecules_from_smiles(input_df) != 0:
         print('Something is wrong with adding molecule structures!')
     else:  # Successfully added 'molecules' col to input_df
-        descriptor_df = generate_mordred_descriptor_df(input_df)
-        morgan_fingerprint_df = generate_morgan_fingerprint_df(input_df)
+
+        rdkit_descriptor_df = generate_rdkit_descriptor_df(input_df)
+        morgan_fingerprint_df = generate_morgan_fingerprint_df(
+            input_df,
+            bit_num=4096
+        )
         maccs_key_df = generate_maccs_key_df(input_df)
 
         merged_df = merge_multiple_dfs(
