@@ -83,24 +83,28 @@ def generate_morgan_fingerprint_df(input_df, bit_num):
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
     """
-    morgan_list = [
-        AllChem.GetMorganFingerprintAsBitVect(
-            molecule,
-            3,  # This is radius
-            nBits=4096,
-            # Used a rather big number here (4096) of bits to avoid bit
-            # clashing
-            useFeatures=True
-        ).ToBitString() for molecule in tqdm(
+    morgan_list = []
+    for molecule in tqdm(
             input_df['molecules'],
-            desc='Generating Morgan fingerprints'
-        )
-    ]
+            desc='Generating {} Morgan fingerprints'.format(bit_num)
+    ):
+        try:
+            morgan_fingerprint = AllChem.GetMorganFingerprintAsBitVect(
+                molecule,
+                3,  # This is radius
+                nBits=bit_num,
+                # Used a rather big number here (like 4096) of bits to avoid bit
+                # clashing
+                useFeatures=True
+            ).ToBitString()
+
+            morgan_list.append(morgan_fingerprint)
+        except Exception as e:
+            print('Error encountered when calculating Morgan fingerprints for '
+                  'molecule {}'.format(molecule))
 
     morgan_np = np.array(
-        [
-            list(bit) for bit in morgan_list
-        ],
+        [list(bit) for bit in morgan_list],
         dtype='int'
     )
     output_df = pd.DataFrame(morgan_np)
@@ -120,22 +124,25 @@ def generate_maccs_key_df(input_df):
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
     """
-    maccs_list = [
-        MACCSkeys.GenMACCSKeys(molecule) for molecule in
-        tqdm(
+    maccs_list = []
+
+    for molecule in tqdm(
             input_df['molecules'],
-            desc='Generating MACCS keys',
-        )
-    ]
+            desc='Generating {} MACCS keys'.format(
+                quick_obtain_num_maccs_key_num())
+    ):
+        try:
+            maccs_key = MACCSkeys.GenMACCSKeys(molecule)
+            maccs_list.append(maccs_key)
+        except Exception as e:
+            print('Error encountered when calculating MACCS keys for '
+                  'molecule {}'.format(molecule))
 
     maccs_np = np.array(
-        [
-            list(bit_vect) for bit_vect in maccs_list
-        ],
+        [list(bit_vect) for bit_vect in maccs_list],
         dtype='int'
     )
     output_df = pd.DataFrame(maccs_np)
-
     return output_df
 
 
