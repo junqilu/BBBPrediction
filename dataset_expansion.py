@@ -4,7 +4,8 @@ import pandas as pd
 from tqdm.notebook import tqdm
 
 from rdkit import Chem
-from rdkit.Chem import PandasTools, AllChem, MACCSkeys
+from rdkit.Chem import Descriptors, PandasTools, AllChem, MACCSkeys
+from rdkit.ML.Descriptors import MoleculeDescriptors
 from mordred import Calculator, descriptors
 
 
@@ -29,34 +30,43 @@ def add_molecules_from_smiles(input_df):
     return 0
 
 
-def generate_mordred_descriptor_df(input_df):
+def generate_rdkit_descriptor_df(input_df):
     """
-    Generate a pd df containing only mordred descriptors using SMILES from input_df
+    Generate a pd df containing only RDKit descriptors using molecule
+    structures from input_df
 
     Args:
-        input_df (pd df): input df that contains SMILES in the 'SMILES' col
+        input_df (pd df): input df that contains molecule structure in the
+        'molecules' col
 
     Returns:
         output_df (pd df): output df that contains only the generated
-        mordred descriptors
+        RDKit descriptors
+
     """
-    calculator = Calculator(
-        descriptors,
-        ignore_3D=True  # 3D descriptors are out of scope of this project so
-        # ignored here
+    descriptor_names = [descriptor[0] for descriptor in Descriptors._descList]
+
+    calculator = MoleculeDescriptors.MolecularDescriptorCalculator(
+        descriptor_names)
+
+    descriptors_list = []
+    for molecule in tqdm(
+            input_df['molecules'],
+            desc='Generating {} RDKit descriptors'.format(
+                len(descriptor_names))
+    ):
+        try:
+            descriptors = calculator.CalcDescriptors(molecule)
+            descriptors_list.append(descriptors)
+        except Exception as e:
+            print('Error encountered when calculating RDKit descriptors for '
+                  'molecule {}'.format(molecule))
+
+    output_df = pd.DataFrame(
+        descriptors_list,
+        columns=descriptor_names  # Use the original descriptor_names as col
+        # names
     )
-
-    molecules = [
-        Chem.MolFromSmiles(smile) for smile in tqdm(
-            input_df['SMILES'],
-            desc='Generating mordred descriptors'
-        )
-    ]
-
-    output_df = calculator.pandas(molecules)
-    # Some warnings might be appearing due to changes from numpy and mordred
-    # didn't update on how to call on some of numpy's functions
-
     return output_df
 
 
