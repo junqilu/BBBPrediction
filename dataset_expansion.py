@@ -111,6 +111,22 @@ def generate_morgan_fingerprint_df(input_df, bit_num):
     return output_df
 
 
+def quick_obtain_num_maccs_key_num():
+    """
+    Generate the number of MACCS keys
+
+    Returns:
+        maccs_keys_num (int): number of MACCS keys that can be generated
+    """
+    molecule = Chem.MolFromSmiles('CCO')  # 'CCO' is a simple SMILES that will
+    # be used to run through the MACCS key generation to obtain the number
+    # of the keys, which is dynamic
+
+    maccs_keys = MACCSkeys.GenMACCSKeys(molecule)
+    maccs_keys_num = len(maccs_keys)
+    return maccs_keys_num
+
+
 def generate_maccs_key_df(input_df):
     """
     Generate a pd df containing only MACCS keys using molecule
