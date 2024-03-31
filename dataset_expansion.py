@@ -6,7 +6,6 @@ from tqdm.notebook import tqdm
 from rdkit import Chem
 from rdkit.Chem import Descriptors, PandasTools, AllChem, MACCSkeys
 from rdkit.ML.Descriptors import MoleculeDescriptors
-from mordred import Calculator, descriptors
 
 
 def add_molecules_from_smiles(input_df):
@@ -42,7 +41,8 @@ def generate_rdkit_descriptor_df(input_df):
     Returns:
         output_df (pd df): output df that contains only the generated
         RDKit descriptors
-
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     descriptor_names = [descriptor[0] for descriptor in Descriptors._descList]
 
@@ -84,6 +84,8 @@ def generate_morgan_fingerprint_df(input_df, bit_num):
     Returns:
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     morgan_list = []
     error_list = []
@@ -144,6 +146,8 @@ def generate_maccs_key_df(input_df):
     Returns:
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     maccs_list = []
     error_list=[]
@@ -208,6 +212,7 @@ def dataset_feature_expansion(input_df):
     Returns:
         output_df (pd df): expanded df that contains the additional
         fingerprints and descriptors
+        error_dict (dict): dict that stores error-causing molecules from the intermediate calculations
     """
     if add_molecules_from_smiles(input_df) != 0:
         print('Something is wrong with adding molecule structures!')
