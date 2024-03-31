@@ -6,7 +6,6 @@ from tqdm.notebook import tqdm
 from rdkit import Chem
 from rdkit.Chem import Descriptors, PandasTools, AllChem, MACCSkeys
 from rdkit.ML.Descriptors import MoleculeDescriptors
-from mordred import Calculator, descriptors
 
 
 def add_molecules_from_smiles(input_df):
@@ -42,7 +41,8 @@ def generate_rdkit_descriptor_df(input_df):
     Returns:
         output_df (pd df): output df that contains only the generated
         RDKit descriptors
-
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     descriptor_names = [descriptor[0] for descriptor in Descriptors._descList]
 
@@ -50,6 +50,7 @@ def generate_rdkit_descriptor_df(input_df):
         descriptor_names)
 
     descriptors_list = []
+    error_list = []
     for molecule in tqdm(
             input_df['molecules'],
             desc='Generating {} RDKit descriptors'.format(
@@ -61,13 +62,14 @@ def generate_rdkit_descriptor_df(input_df):
         except Exception as e:
             print('Error encountered when calculating RDKit descriptors for '
                   'molecule {}'.format(molecule))
+            error_list.append(molecule)
 
     output_df = pd.DataFrame(
         descriptors_list,
         columns=descriptor_names  # Use the original descriptor_names as col
         # names
     )
-    return output_df
+    return output_df, error_list
 
 
 def generate_morgan_fingerprint_df(input_df, bit_num):
@@ -82,8 +84,12 @@ def generate_morgan_fingerprint_df(input_df, bit_num):
     Returns:
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     morgan_list = []
+    error_list = []
+
     for molecule in tqdm(
             input_df['molecules'],
             desc='Generating {} Morgan fingerprints'.format(bit_num)
@@ -102,13 +108,14 @@ def generate_morgan_fingerprint_df(input_df, bit_num):
         except Exception as e:
             print('Error encountered when calculating Morgan fingerprints for '
                   'molecule {}'.format(molecule))
+            error_list.append(molecule)
 
     morgan_np = np.array(
         [list(bit) for bit in morgan_list],
         dtype='int'
     )
     output_df = pd.DataFrame(morgan_np)
-    return output_df
+    return output_df, error_list
 
 
 def quick_obtain_num_maccs_key_num():
@@ -139,8 +146,11 @@ def generate_maccs_key_df(input_df):
     Returns:
         output_df (pd df): output df that contains only the generated
         Morgan fingerprints
+        error_list (list of molecules): list that stores all the
+        error-causing molecules
     """
     maccs_list = []
+    error_list=[]
 
     for molecule in tqdm(
             input_df['molecules'],
@@ -153,13 +163,14 @@ def generate_maccs_key_df(input_df):
         except Exception as e:
             print('Error encountered when calculating MACCS keys for '
                   'molecule {}'.format(molecule))
+            error_list.append(molecule)
 
     maccs_np = np.array(
         [list(bit_vect) for bit_vect in maccs_list],
         dtype='int'
     )
     output_df = pd.DataFrame(maccs_np)
-    return output_df
+    return output_df, error_list
 
 
 def merge_multiple_dfs(df_list, left_index_bool=True, right_index_bool=True):
@@ -201,17 +212,24 @@ def dataset_feature_expansion(input_df):
     Returns:
         output_df (pd df): expanded df that contains the additional
         fingerprints and descriptors
+        error_dict (dict): dict that stores error-causing molecules from the intermediate calculations
     """
     if add_molecules_from_smiles(input_df) != 0:
         print('Something is wrong with adding molecule structures!')
     else:  # Successfully added 'molecules' col to input_df
+        error_dict = {}
 
-        rdkit_descriptor_df = generate_rdkit_descriptor_df(input_df)
-        morgan_fingerprint_df = generate_morgan_fingerprint_df(
+        rdkit_descriptor_df, rdkit_errors = generate_rdkit_descriptor_df(
+            input_df)
+        morgan_fingerprint_df, morgan_errors = generate_morgan_fingerprint_df(
             input_df,
             bit_num=4096
         )
-        maccs_key_df = generate_maccs_key_df(input_df)
+        maccs_key_df, maccs_errors = generate_maccs_key_df(input_df)
+
+        error_dict['RDKit descriptors'] = rdkit_errors
+        error_dict['Morgan fingerprints'] = morgan_errors
+        error_dict['MACCS keys'] = maccs_errors
 
         merged_df = merge_multiple_dfs(
             [
@@ -233,4 +251,4 @@ def dataset_feature_expansion(input_df):
             inplace=True
         )
 
-    return output_df
+    return output_df, error_dict
