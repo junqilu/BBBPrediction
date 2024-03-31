@@ -2,8 +2,7 @@ import pandas as pd
 
 from sklearn.feature_selection import \
     VarianceThreshold  # For checking descriptors with low variance
-from collinearity import SelectNonCollinear  # For throw out highly
-# correlated variables
+
 
 
 def filter_low_variance_worker(intput_df, threshold_level):
