@@ -22,10 +22,9 @@ Our **datasets** directory structure:
   and property to predict into .csv 
   * BBB_regression.csv
   * BBB_classification.csv
-* **expanded_datasets**: .csv datasets that have been expanded by mordred 
-  descriptors, Morgan fingerprints, and MACCS keys
-  * BBB_regression_expanded.csv
-  * BBB_classification_expanded.csv
+* **expanded_datasets**: .csv.zip datasets that have been expanded by RDKit descriptors, Morgan fingerprints, and MACCS keys
+  * BBB_regression_expanded.csv.zip
+  * BBB_classification_expanded.csv.zip
 
 
 
