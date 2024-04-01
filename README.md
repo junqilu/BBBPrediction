@@ -23,8 +23,13 @@ Our **datasets** directory structure:
   * BBB_regression.csv
   * BBB_classification.csv
 * **expanded_datasets**: .csv.zip datasets that have been expanded by RDKit descriptors, Morgan fingerprints, and MACCS keys
-  * BBB_regression_expanded.csv.zip
+  * BBB_regression_expanded.csv.zip <- This is the final dataset for 
+    regression models
   * BBB_classification_expanded.csv.zip
+* **balanced_datasets**: These are the final datasets for 
+  classification models
+  * BBB_classification_balanced_centroid.csv.zip
+  * BBB_classification_balanced_smoteenn.csv.zip 
 
 
 
