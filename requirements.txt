@@ -2,4 +2,4 @@ rdkit
 mordred
 tqdm
 scikit-learn
-collinearity
+matplotlib
