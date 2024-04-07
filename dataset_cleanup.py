@@ -3,7 +3,24 @@ import pandas as pd
 from sklearn.feature_selection import \
     VarianceThreshold  # For checking descriptors with low variance
 
+def read_tsv_to_df(tsv_file_directory):
+    """
+    Convert the .tsv file to pd df
 
+    Args:
+        tsv_file_directory (str): directory for the .tsv file
+
+    Returns:
+        df (pd df): df that contains the data from the .csv file
+
+    """
+    df = pd.read_csv(
+        tsv_file_directory,
+        sep='\t'  # .tsv files are similar to .csv files but instead of using
+        # comma, .tsv files use tabs as separator
+    )
+
+    return df
 
 def filter_low_variance_worker(intput_df, threshold_level):
     """
@@ -81,7 +98,9 @@ def filter_low_variance(input_df, exclude_col_list,
     print(
         'After removing the zero-variance descriptors, the dataset has {} '
         'descriptors'.format(
-            len(input_df_expanded_varianced.columns)
+            len(input_df_expanded_varianced.columns) - 2
+            # Minus 2 since in the columns, "SMILES" and the y labels or
+            # values aren't features
         ),
     )
 
