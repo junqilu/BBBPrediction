@@ -20,7 +20,7 @@ def simple_pie_plot(label_list, num_list, title_str):
         tag = label + '\n(' + str(real_num) + ')'
         tag_list.append(tag)
 
-    fig, ax = plt.subplots(figsize=(6, 6))  # Set the figure size
+    fig, ax = plt.subplots(figsize=(8, 6))  # Set the figure size
     ax.pie(
         num_list,
         labels=tag_list,
@@ -35,6 +35,6 @@ def simple_pie_plot(label_list, num_list, title_str):
     )
     plt.axis('equal')  # Ensures that pie is drawn as a circle. Otherwise it
     # can be an oval
-    plt.title(title_str)
+    plt.title(title_str, weight='bold', fontsize=14)
 
     return 0
