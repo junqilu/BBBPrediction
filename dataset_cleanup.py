@@ -98,7 +98,9 @@ def filter_low_variance(input_df, exclude_col_list,
     print(
         'After removing the zero-variance descriptors, the dataset has {} '
         'descriptors'.format(
-            len(input_df_expanded_varianced.columns)
+            len(input_df_expanded_varianced.columns) - 2
+            # Minus 2 since in the columns, "SMILES" and the y labels or
+            # values aren't features
         ),
     )
 
