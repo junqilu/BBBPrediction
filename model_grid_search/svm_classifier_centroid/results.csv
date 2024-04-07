@@ -1,0 +1,3 @@
+param_gamma,param_kernel,params,mean_test_Recall,rank_test_Recall,mean_test_Precision,rank_test_Precision,mean_test_F1,rank_test_F1,mean_test_Accuracy,rank_test_Accuracy,mean_test_Balanced accuracy,rank_test_Balanced accuracy,mean_test_AUROC,rank_test_AUROC
+0.1,rbf,"{'gamma': 0.1, 'kernel': 'rbf'}",0.9846569485351658,1,0.6653694522340103,1,0.7940996436801431,1,0.7445804623969631,1,0.7445214567237234,1,0.8169747789699845,1
+0.5,rbf,"{'gamma': 0.5, 'kernel': 'rbf'}",0.9846569485351658,1,0.6642759748099846,2,0.7933200050045907,2,0.7433622278039064,2,0.7433031331369787,2,0.800742120904213,2
