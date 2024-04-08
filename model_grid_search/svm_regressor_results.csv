@@ -1,3 +1,5 @@
-param_gamma,param_kernel,params,mean_test_MAE,rank_test_MAE,mean_test_MSE,rank_test_MSE,mean_test_R2,rank_test_R2
-0.1,rbf,"{'gamma': 0.1, 'kernel': 'rbf'}",-0.561631170503479,1,-0.5349393385195492,1,0.06875356825646889,1
-0.5,rbf,"{'gamma': 0.5, 'kernel': 'rbf'}",-0.5616379625068414,2,-0.5349518693276574,2,0.06873007033178952,2
+param_C,param_gamma,param_kernel,params,mean_test_MAE,rank_test_MAE,mean_test_MSE,rank_test_MSE,mean_test_R2,rank_test_R2
+5,auto,rbf,"{'C': 5, 'gamma': 'auto', 'kernel': 'rbf'}",-0.39904518593253446,1,-0.29229067813132686,1,0.4806645342830487,1
+1,auto,rbf,"{'C': 1, 'gamma': 'auto', 'kernel': 'rbf'}",-0.40476239961059535,2,-0.3001170749287001,2,0.46766836998362726,2
+5,3,rbf,"{'C': 5, 'gamma': 3, 'kernel': 'rbf'}",-0.5276031664656005,3,-0.49722475889572254,3,0.12573428108359866,3
+1,3,rbf,"{'C': 1, 'gamma': 3, 'kernel': 'rbf'}",-0.5311440706185924,4,-0.5011827651030434,4,0.11881584304040053,4
