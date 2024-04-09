@@ -1,19 +1,3 @@
-# BBBPrediction
-## Datasets
-Data source: Meng, F., Xi, Y., Huang, J. & Ayers, P. W. A curated diverse molecular database of blood-brain barrier permeability with chemical descriptors. Sci Data 8, 289 (2021). https://doi.org/10.1038/s41597-021-01069-5
-* GitHub page: https://github.com/theochem/B3DB
-* All .tsv were converted to .csv
-
-\
-2 datasets from the publication
-
-|      Dataset files      |  Number of chemicals  | Number of BBB+ chemicals | Number of BBB- chemicals | Original number of descriptors |
-|:-----------------------:|:---------------------:|:------------------------:|:------------------------:|:------------------------------:|
-|   BBB_regression.csv    |         1058          |           930            |           128            |              1623              |
-| BBB_classification.csv  |         7807          |           4956           |           2851           |              1625              |
-
-* In BBB_regression.csv, `logBB <= -1.01` is considered as BBB- and `logBB >= -1` is considered as BBB+. Threshold is `-1`.  
-
 Our **datasets** directory structure:
 * **original_datasets**: .tsv datasets directly from the publication
   * B3DB_regression.tsv
@@ -30,8 +14,37 @@ Our **datasets** directory structure:
   classification models
   * BBB_classification_balanced_centroid.csv.zip
   * BBB_classification_balanced_smoteenn.csv.zip 
+* **holdout_datasets**: After cleaning, expanding, and balancing the datasets, they were divided into two groups. This dataset was reserved for post-training validation.
+  * classification_df_expanded_cleaned_holdout.csv.zip
+  * regression_df_expanded_cleaned_holdout.csv.zip
+* **train_datasets**: These are the datasets used for training after the division.
+  * classification_df_expanded
 
+Our **model_outputs** directory structure:
+* **data_preprocessing**: Graphic representations of our data, as well as the effects of some processing.
+  * regression_histrogram.png
+  * classification_classes_counts.png
+  * classification_before_balancing.png
+  * classification_balanced_centroid.png
+  * classification_balanced_smoteenn.png
+* **mlp_classifier**:
+* **rf_regressor**:
+* **svm_classifier**: These are pickles(saved data and objects) from the SVM training, including test sets, PCA components, and processing tools.
+  * centroid_x_test.pkl
+  * centroid_y_test.pkl
+  * smoteenn_x_test.pkl
+  * smoteenn_y_test.pkl
+  * top_two_centroid.pkl
+  * top_two_smoteenn.pkl
+  * centroid_pipeline.pkl
+  * smoteenn_pipeline.pkl
 
+Our **model_pickles** directory contains the trained models fit with the best parameters, as pickles:
+* best_mlp_classifier.pkl
+* best_rf_regressor.pkl
+* best_svm_classifier_centroid.pkl
+* best_svm_classifier_smoteenn.pkl
+* best_svm_regressor.pkl
 
 
 
