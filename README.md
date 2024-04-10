@@ -29,15 +29,41 @@ Our **model_outputs** directory structure:
   * classification_balanced_smoteenn.png
 * **mlp_classifier**:
 * **rf_regressor**:
-* **svm_classifier**: These are pickles(saved data and objects) from the SVM training, including test sets, PCA components, and processing tools.
-  * centroid_x_test.pkl
-  * centroid_y_test.pkl
-  * smoteenn_x_test.pkl
-  * smoteenn_y_test.pkl
-  * top_two_centroid.pkl
-  * top_two_smoteenn.pkl
-  * centroid_pipeline.pkl
-  * smoteenn_pipeline.pkl
+* **svm_classifier**: These are pickles(saved data and objects) and graphics from the SVM training and evaluation, including test sets, PCA components, and processing tools.
+  * Data splits
+    * centroid_x_train.pkl
+    * centroid_y_train.pkl
+    * centroid_x_test.pkl
+    * centroid_y_test.pkl
+    * smoteenn_x_train.pkl
+    * smoteenn_y_train.pkl
+    * smoteenn_x_test.pkl
+    * smoteenn_y_test.pkl
+  * PCA Components
+    * top_two_centroid.pkl
+    * top_two_smoteenn.pkl
+  * Pipelines
+    * centroid_pipeline.pkl
+    * smoteenn_pipeline.pkl
+  * Evaluation Graphics
+    * centroid_auroc.png
+    * centroid_holdout_roc.png
+    * centroid_metrics.png
+    * smoteenn_auroc.png
+    * smoteenn_holdout_roc.png
+    * SMOTEENN_metrics.png
+* **svr_regressor**:These are pickles(saved data and objects) and graphics from the regressor training and evaluation, including test sets, PCA components, and processing tools.
+  * Data splits
+    * regression_x_train.pkl
+    * regression_x_test.pkl
+    * regression_y_train.pkl
+    * regression_y_test.pkl
+  * Pipelines
+    * svm_regressor_pipeline.pkl
+  * Evaluation Graphics
+    * metrics.png
+    * pred_vs_actual.png
+    * residuals.png
 
 Our **model_pickles** directory contains the trained models fit with the best parameters, as pickles:
 * best_mlp_classifier.pkl
@@ -45,6 +71,26 @@ Our **model_pickles** directory contains the trained models fit with the best pa
 * best_svm_classifier_centroid.pkl
 * best_svm_classifier_smoteenn.pkl
 * best_svm_regressor.pkl
+
+**Jupyter Notebooks**
+
+data_preprocessing.ipynb : This is where the datasets were cleaned, balanced, and a holdout set was separated out
+
+baseline_models_training.ipynb : The SVM and SVR models were trained here using a grid search
+baseline_models_evaluation.ipynb : The SVM and SVR models were evaluated using residuals, ROC, Delongs, etc.
+
+complex_models_training.ipynb : The Random Forest and Multilayer Perceptron were trained here using a grid search
+complex_models_evaluation.ipynb : The RF and MLP were evaluated using various validations, such as ROC and residuals.
+
+
+**Python Files**
+
+dataset_cleanup.py :
+dataset_expansion.py :
+dataset_plot.py : 
+
+model_evaluation.py : functions used in evaluating models, notably "Delong's Test"
+pickle_managment.py : functions used to help save and store models and other objects for future use
 
 
 
