@@ -1,6 +1,44 @@
 import numpy as np
 import scipy
 
+def calc_f_stat(y_actual, y_modeled1, y_modeled2, parameter_model1,
+               parameter_model2, num_data):
+    """
+    Calculates the f-statistic for comparing any models, including linear
+    regression model, using the mean square error and mean square
+    regression. Adopted from Module1 - Linear Regression & Fstat.ipynb on
+    1.16.2024 lecture in-class code along
+
+    Args:
+        y_actual (np array): actual y values
+        y_modeled1 (np_array): modeled y value from model1. If model1 is the
+        mean model, y_modeled1 is
+        np.mean(y)
+        y_modeled2 (np_array): modeled y value from model2
+        parameter_model1 (int): number of parameters for model1. If model1 is
+        the mean model,
+        p1 = 1 for mean
+        parameter_model2 (int): number of parameters for model2. If model2 is
+        the linear fit
+        model, parameter_model2 = 2 for slope and intercept
+        num_data (int): number of data.
+
+    Returns:
+        f_stat (float): calculated F-stat
+
+    """
+
+    sse_model1 = np.sum(
+        (y_actual - y_modeled1) ** 2)  # model1 is the mean model
+    sse_model2 = np.sum(
+        (y_actual - y_modeled2) ** 2)  # model2 is the linear fit model
+
+    f_stat = (sse_model1 - sse_model2) * (num_data - parameter_model2) / (
+            sse_model2 * (parameter_model2 - parameter_model1))
+
+
+    return f_stat
+
 
 def calculate_structural_components(y_test, y_pred):
     #y_test and y_pred need to be np.array
@@ -74,3 +112,5 @@ def delongs_test(model_a_probs, model_b_probs, model_a_auc, model_b_auc,
     print('p value: {}'.format(p_value))
 
     return p_value
+
+
