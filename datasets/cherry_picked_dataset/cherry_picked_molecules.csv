@@ -1,0 +1,4 @@
+SMILES,BBB+/BBB-
+C1=CC2=C(C=C1C3=CN=C(C=C3)[18F])NC4=C2C=NC=C4,BBB+
+CC(=CCC[C@@](C)([C@H]1CC[C@@]2([C@@H]1[C@@H](C[C@H]3[C@]2(C[C@@H]([C@@H]4[C@@]3(CC[C@@H](C4(C)C)O)C)O[C@H]5[C@@H]([C@H]([C@@H]([C@H](O5)CO)O)O)O)C)O)C)O[C@H]6[C@@H]([C@H]([C@@H]([C@H](O6)CO)O)O)O)C,BBB-
+CC(C)(C)C1=NC(=C(S1)C2=NC(=NC=C2)N)C3=C(C(=CC=C3)NS(=O)(=O)C4=C(C=CC=C4F)F)F,BBB-
